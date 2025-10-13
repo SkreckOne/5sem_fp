@@ -1,0 +1,23 @@
+(executable
+ (name cycle)
+ (modules cycle))
+
+(executable
+ (name inf_loop)
+ (modules inf_loop))
+
+(executable
+ (name map_version)
+ (modules map_version))
+
+(executable
+ (name module_realisation)
+ (modules module_realisation))
+
+(executable
+ (name recursion)
+ (modules recursion))
+
+(executable
+ (name tail_recursion)
+ (modules tail_recursion))

@@ -8,12 +8,11 @@
 
 # Project Euler — Задачи 3 и 28
 
-- Задача 3 (Largest Prime Factor): наибольший простой делитель числа 600851475143 → ответ: 6857
-- Задача 28 (Number spiral diagonals): сумма чисел на диагоналях спирали 1001×1001 → ответ: 669171001
-
+- [Задача 3](https://projecteuler.net/problem=3) (Largest Prime Factor): наибольший простой делитель числа 
+- [Задача 28](https://projecteuler.net/problem=28) (Number spiral diagonals): сумма чисел на диагоналях спирали 1001×1001
 ---
 
-## Задача 3 — Largest Prime Factor
+## [Задача 3 — Largest Prime Factor](https://projecteuler.net/problem=3)
 
 Условие: найти наибольший простой делитель числа 600851475143.
 
@@ -24,7 +23,7 @@
 
 Ожидаемый результат: 6857.
 
-### OCaml — Вариант 1 (императивный, с перезапуском делителя)
+### OCaml — Реализация 1 (императивный, с перезапуском делителя)
 
 ```ocaml
 let find_largest_prime_factor nn =
@@ -44,7 +43,7 @@ let () =
   Printf.printf "%d\n" r
 ```
 
-### OCaml — Вариант 2 (через Seq)
+### OCaml — Реализация 2 (через Seq)
 
 ```ocaml
 module S = Seq
@@ -68,7 +67,7 @@ let () =
   Printf.printf "%d\n" result
 ```
 
-### OCaml — Вариант 3 (предвычисление кандидатов)
+### OCaml — Реализация 3 (предвычисление кандидатов)
 
 ```ocaml
 let find_largest_prime_factor n =
@@ -92,7 +91,7 @@ let () =
   Printf.printf "%d\n" r
 ```
 
-### OCaml — Вариант 4 (через делители + проверка простоты)
+### OCaml — Реализация 4 (через делители + проверка простоты)
 Внимание: для простого n этот вариант вернёт 1 (можно добавить проверку: если список пуст — вернуть n).
 
 ```ocaml
@@ -125,7 +124,7 @@ let () =
   Printf.printf "%d\n" r
 ```
 
-### OCaml — Вариант 5 (рекурсивный с сравнением «хвоста»)
+### OCaml — Реализация 5 (рекурсивный с сравнением «хвоста»)
 
 ```ocaml
 let rec find_largest_prime_factor ?(d = 2) n =
@@ -141,7 +140,7 @@ let () =
   Printf.printf "%d\n" r
 ```
 
-### OCaml — Вариант 6 (рекурсивный, «возвращаем простое»)
+### OCaml — Реализация 6 (рекурсивный, «возвращаем простое»)
 
 ```ocaml
 let rec find_largest_prime_factor ?(d = 2) n =
@@ -155,7 +154,7 @@ let () =
   Printf.printf "%d\n" r
 ```
 
-### C — Вариант (uint64_t)
+### C — Реализация (uint64_t)
 
 ```c
 #include <inttypes.h>
@@ -176,7 +175,7 @@ uint64_t find_largest_prime_factor(uint64_t n) {
 }
 
 int main(void) {
-  uint64_t n = UINT64_C(600851475143);
+  uint64_t n = 600851475143;
   printf("%" PRIu64 "\n", find_largest_prime_factor(n));
   return 0;
 }
@@ -186,16 +185,17 @@ int main(void) {
 
 ---
 
-## Задача 28 — Number spiral diagonals
+## [Задача 28 — Number spiral diagonals](https://projecteuler.net/problem=28)
 
 Условие: какова сумма чисел на диагоналях в спирали n×n (n нечётно), построенной стандартным способом? Для n = 1001 → 669171001.
 
 Формула углов слоя с размером k (k нечётно, k ≥ 3): 4k^2 − 6k + 6. Итог: сумма по k = 3,5,7,…,n плюс 1.
 
-### OCaml — Вариант 1 (Seq)
+### OCaml — Реализация 1 (Seq)
 
 ```ocaml
 module S = Seq
+
 let layer_sizes = S.unfold (fun i -> Some (i, i + 2)) 3
 
 let calc_matrix n =
@@ -203,7 +203,7 @@ let calc_matrix n =
     layer_sizes
     |> S.take_while (fun k -> k <= n)
     |> S.map (fun k -> (4 * k * k) - (6 * k) + 6)
-    |> S.fold_left (+) 0
+    |> S.fold_left ( + ) 0
   in
   sum_of_corners + 1
 
@@ -213,7 +213,7 @@ let () =
   Printf.printf "%d\n" answ
 ```
 
-### OCaml — Вариант 2 (генерация нечётных, map + fold)
+### OCaml — Реализация 2 (генерация нечётных, map + fold)
 
 ```ocaml
 let gen_odds n =
@@ -234,20 +234,21 @@ let () =
   Printf.printf "%d\n" answ
 ```
 
-### OCaml — Вариант 3 (генератор сразу даёт вклад слоя)
+### OCaml — Реализация 3 (генератор сразу даёт вклад слоя)
 
 ```ocaml
-let gen_odds n = 
+let gen_odds n =
   let res = [] in
   let rec generator nn =
     match nn with
     | 1 -> 1 :: res
-    | i -> (4 * i * i) - (6 * i) + 6 :: generator (i-2) in
+    | i -> ((4 * i * i) - (6 * i) + 6) :: generator (i - 2)
+  in
   generator n
 
-let calc_matrix n = 
-  let res = gen_odds n in List.fold_left (+) 0 res
-
+let calc_matrix n =
+  let res = gen_odds n in
+  List.fold_left ( + ) 0 res
 
 let () =
   let n = 1001 in
@@ -255,7 +256,7 @@ let () =
   Printf.printf "%d\n" answ
 ```
 
-### OCaml — Вариант 4 (простая рекурсия)
+### OCaml — Реализация 4 (простая рекурсия)
 
 ```ocaml
 let rec calc_matrix n =
@@ -267,7 +268,7 @@ let () =
   Printf.printf "%d\n" answ
 ```
 
-### OCaml — Вариант 5 (хвостовая рекурсия)
+### OCaml — Реализация 5 (хвостовая рекурсия)
 
 ```ocaml
 let rec calc_matrix n cur_sum =
@@ -278,6 +279,25 @@ let () =
   let n = 1001 in
   let answ = calc_matrix n 0 in
   Printf.printf "%d\n" answ
+```
+
+### OCaml — Реализация 6 (цикл)
+
+```ocaml
+let calc_matrix nn =
+  let n = ref nn in
+  let sum = ref 0 in
+  while !n > 0 do
+    if !n = 1 then incr sum else sum := !sum + (4 * !n * !n) - (6 * !n) + 6;
+    n := !n - 2
+  done;
+  !sum
+
+let () =
+  let n = 1001 in
+  let answ = calc_matrix n in
+  Printf.printf "%d\n" answ
+
 ```
 
 ### C — Вариант (итеративно)
@@ -313,8 +333,8 @@ int main(void) {
 
 ## Результаты
 
-- Задача 3 → 6857
-- Задача 28 → 669171001
+- [Задача 3](https://projecteuler.net/problem=3) → 6857
+- [Задача 28](https://projecteuler.net/problem=28) → 669171001
 
 ---
 

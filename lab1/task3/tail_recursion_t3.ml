@@ -7,4 +7,3 @@ let () =
   let n = 600851475143 in
   let r = find_largest_prime_factor n in
   Printf.printf "%d\n" r
-

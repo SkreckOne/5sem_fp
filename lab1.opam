@@ -9,7 +9,7 @@ bug-reports: "https://github.com/SkreckOne/5sem_fp/issues"
 depends: [
   "ocaml"
   "dune" {>= "3.20.2"}
-  "ocamlformat" {>= "0.27.0"}
+  "ocamlformat" {= "0.27.0"}
   "alcotest" {with-test} 
 ]
 build: [
@@ -23,6 +23,5 @@ build: [
     jobs
     "@install"
     "@runtest" {with-test}
-    "@doc" {with-doc}
   ]
 ]

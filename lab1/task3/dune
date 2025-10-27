@@ -1,23 +1,33 @@
-(executable
- (name cycle)
- (modules cycle))
+(library
+ (name task3_lib)
+ (modules
+  cycle_t3
+  inf_loop_t3
+  map_version_t3
+  module_realisation_t3
+  recursion_t3
+  tail_recursion_t3))
 
-(executable
- (name inf_loop)
- (modules inf_loop))
+; (executable
+;  (name cycle_t3)
+;  (libraries task3_lib))
 
-(executable
- (name map_version)
- (modules map_version))
+; (executable
+;  (name inf_loop_t3)
+;  (libraries task3_lib))
 
-(executable
- (name module_realisation)
- (modules module_realisation))
+; (executable
+;  (name map_version_t3)
+;  (libraries task3_lib))
 
-(executable
- (name recursion)
- (modules recursion))
+; (executable
+;  (name module_realisation_t3)
+;  (libraries task3_lib))
 
-(executable
- (name tail_recursion)
- (modules tail_recursion))
+; (executable
+;  (name recursion_t3)
+;  (libraries task3_lib))
+
+; (executable
+;  (name tail_recursion_t3)
+;  (libraries task3_lib))

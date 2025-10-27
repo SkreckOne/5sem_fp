@@ -1,0 +1,56 @@
+name: OCaml CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build_and_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        ocaml-compiler: [ '5.3.0' ]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+
+    - name: Set up OCaml ${{ matrix.ocaml-compiler }}
+      uses: ocaml/setup-ocaml@v2
+      with:
+        ocaml-compiler: ${{ matrix.ocaml-compiler }}
+
+    - name: Install dependencies
+      run: opam install . --deps-only --with-test
+
+    - name: Build project
+      run: opam exec -- dune build
+
+    - name: Run tests
+      run: opam exec -- dune runtest
+
+  linting_and_formatting:
+    name: Linting and Formatting
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+
+    - name: Check formatting with ocamlformat
+      uses: ocaml/setup-ocaml@v2
+      with:
+        ocaml-compiler: '5.3.0'
+    - run: opam install ocamlformat
+    - run: opam exec -- ocamlformat --check .
+
+    - name: Run linter with Semgrep
+      uses: semgrep/semgrep-action@v2
+      with:
+        config: >- 
+          auto
